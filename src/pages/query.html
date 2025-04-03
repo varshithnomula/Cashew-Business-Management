@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Query - Cashew Management System</title>
+    <link rel="stylesheet" href="/src/styles/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="/src/js/utils.js"></script>
+    <style>
+        #sqlQuery {
+            width: 100%;
+            height: 150px;
+            font-family: monospace;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .query-container {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .query-results {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        .table-info {
+            margin-top: 20px;
+        }
+        .table-card {
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .table-card:hover {
+            background-color: #f0f0f0;
+        }
+        .table-name {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .sample-query {
+            background-color: #f5f5f5;
+            padding: 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://t4.ftcdn.net/jpg/01/71/82/79/240_F_171827945_jwDoVYgXxdLZ36IJMoplWyyGJ95eMh1w.jpg" alt="Cashew Logo" class="logo">
+                <h1>Cashew Management</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/index.html" class="nav-item">
+                    <i class="icon">📊</i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/src/pages/suppliers.html" class="nav-item">
+                    <i class="icon">👥</i>
+                    <span>Suppliers</span>
+                </a>
+                <a href="/src/pages/customers.html" class="nav-item">
+                    <i class="icon">🧑‍💼</i>
+                    <span>Customers</span>
+                </a>
+                <a href="/src/pages/sales.html" class="nav-item">
+                    <i class="icon">💰</i>
+                    <span>Sales</span>
+                </a>
+                <a href="/src/pages/payments.html" class="nav-item">
+                    <i class="icon">💳</i>
+                    <span>Payments</span>
+                </a>
+                <a href="/src/pages/query.html" class="nav-item">
+                    <i class="icon">📝</i>
+                    <span>SQL Query</span>
+                </a>
+            </nav>
+        </aside> 
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-bar">
+                    <input type="search" id="pageSearch" placeholder="Search on this page...">
+                </div>
+            </header>
+
+            <div id="query" class="page active">
+                <div class="page-header">
+                    <h2>SQL Query Interface</h2>
+                </div>
+
+                <div class="query-container">
+                    <div class="query-editor">
+                        <textarea id="sqlQuery" placeholder="Enter your SQL query here..."></textarea>
+                        <button class="btn-primary" onclick="executeQuery()">Execute Query</button>
+                    </div>
+                    <div class="query-results">
+                        <div id="resultsContainer"></div>
+                    </div>
+                </div>
+
+                <div class="table-info">
+                    <h3>Available Tables</h3>
+                    <div class="table-list">
+                        <div class="table-card" onclick="showTableInfo('SUPPLIERS')">
+                            <div class="table-name">SUPPLIERS</div>
+                            <div>Contains information about cashew suppliers</div>
+                            <div class="sample-query" onclick="setQuery('SELECT * FROM SUPPLIERS')">SELECT * FROM SUPPLIERS</div>
+                        </div>
+                        <div class="table-card" onclick="showTableInfo('RAWCASHEW')">
+                            <div class="table-name">RAWCASHEW</div>
+                            <div>Contains raw cashew inventory details</div>
+                            <div class="sample-query" onclick="setQuery('SELECT * FROM RAWCASHEW')">SELECT * FROM RAWCASHEW</div>
+                        </div>
+                        <div class="table-card" onclick="showTableInfo('PROCESSEDCASHEW')">
+                            <div class="table-name">PROCESSEDCASHEW</div>
+                            <div>Contains processed cashew inventory details</div>
+                            <div class="sample-query" onclick="setQuery('SELECT * FROM PROCESSEDCASHEW')">SELECT * FROM PROCESSEDCASHEW</div>
+                        </div>
+                        <div class="table-card" onclick="showTableInfo('PACKAGING')">
+                            <div class="table-name">PACKAGING</div>
+                            <div>Contains packaging information</div>
+                            <div class="sample-query" onclick="setQuery('SELECT * FROM PACKAGING')">SELECT * FROM PACKAGING</div>
+                        </div>
+                        <div class="table-card" onclick="showTableInfo('CUSTOMERS')">
+                            <div class="table-name">CUSTOMERS</div>
+                            <div>Contains customer information</div>
+                            <div class="sample-query" onclick="setQuery('SELECT * FROM CUSTOMERS')">SELECT * FROM CUSTOMERS</div>
+                        </div>
+                        <div class="table-card" onclick="showTableInfo('SALES')">
+                            <div class="table-name">SALES</div>
+                            <div>Contains sales transaction details</div>
+                            <div class="sample-query" onclick="setQuery('SELECT * FROM SALES')">SELECT * FROM SALES</div>
+                        </div>
+                        <div class="table-card" onclick="showTableInfo('PAYMENTS')">
+                            <div class="table-name">PAYMENTS</div>
+                            <div>Contains payment details for sales</div>
+                            <div class="sample-query" onclick="setQuery('SELECT * FROM PAYMENTS')">SELECT * FROM PAYMENTS</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Function to execute SQL query
+        async function executeQuery() {
+            const query = document.getElementById('sqlQuery').value.trim();
+            if (!query) {
+                alert('Please enter an SQL query');
+                return;
+            }
+
+            const resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.innerHTML = '<div class="flex items-center justify-center p-4"><div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900 mr-2"></div> Executing query...</div>';
+            
+            try {
+                const results = await appUtils.fetchWithRetry('http://localhost:3000/api/query', {
+                    method: 'POST',
+                    body: JSON.stringify({ query })
+                });
+                
+                if (!results || results.length === 0) {
+                    resultsContainer.innerHTML = '<div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4">Query executed successfully, but no results were returned.</div>';
+                    return;
+                }
+                
+                // Get column names from the first result
+                const columns = Object.keys(results[0]);
+                
+                // Create table
+                let tableHTML = '<table class="min-w-full divide-y divide-gray-200">';
+                
+                // Add header row
+                tableHTML += '<thead class="bg-gray-50"><tr>';
+                columns.forEach(column => {
+                    tableHTML += `<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">${column}</th>`;
+                });
+                tableHTML += '</tr></thead>';
+                
+                // Add data rows
+                tableHTML += '<tbody class="bg-white divide-y divide-gray-200">';
+                results.forEach(row => {
+                    tableHTML += '<tr>';
+                    columns.forEach(column => {
+                        tableHTML += `<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${row[column] ?? ''}</td>`;
+                    });
+                    tableHTML += '</tr>';
+                });
+                tableHTML += '</tbody></table>';
+                
+                resultsContainer.innerHTML = tableHTML;
+            } catch (error) {
+                console.error('Error executing query:', error);
+                resultsContainer.innerHTML = `<div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                    <p class="font-bold">Error executing query:</p>
+                    <p>${error.message}</p>
+                </div>`;
+            }
+
+            // After displaying results, re-initialize search
+            setTimeout(setupSearch, 100); // Small delay to ensure the table is rendered
+        }
+
+        // Function to show table information
+        function showTableInfo(tableName) {
+            const sampleQueries = {
+                'SUPPLIERS': [
+                    'SELECT * FROM SUPPLIERS',
+                    'SELECT SUPPLIERID, SUPPLIERNAME, PHONE FROM SUPPLIERS WHERE PHONE LIKE \'%123%\'',
+                    'SELECT COUNT(*) as TOTAL_SUPPLIERS FROM SUPPLIERS'
+                ],
+                'CUSTOMERS': [
+                    'SELECT * FROM CUSTOMERS',
+                    'SELECT CUSTOMERID, CUSTOMERNAME, BUSINESS_TYPE FROM CUSTOMERS WHERE BUSINESS_TYPE = \'Retailer\'',
+                    'SELECT COUNT(*) as TOTAL_CUSTOMERS FROM CUSTOMERS'
+                ],
+                'SALES': [
+                    'SELECT * FROM SALES',
+                    'SELECT s.*, c.CUSTOMERNAME FROM SALES s JOIN CUSTOMERS c ON s.CUSTOMERID = c.CUSTOMERID',
+                    'SELECT SUM(TOTALAMOUNT) as TOTAL_SALES FROM SALES'
+                ],
+                'PAYMENTS': [
+                    'SELECT * FROM PAYMENTS',
+                    'SELECT p.*, c.CUSTOMERNAME FROM PAYMENTS p JOIN CUSTOMERS c ON p.CUSTOMERID = c.CUSTOMERID',
+                    'SELECT SUM(AMOUNT) as TOTAL_PAYMENTS FROM PAYMENTS'
+                ]
+            };
+
+            const queries = sampleQueries[tableName] || [];
+            const queryList = document.getElementById('sampleQueries');
+            queryList.innerHTML = '';
+
+            queries.forEach(query => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="#" onclick="setQuery('${query.replace(/'/g, "\\'")}')">${query}</a>`;
+                queryList.appendChild(li);
+            });
+        }
+
+        // Function to set query in editor
+        function setQuery(query) {
+            document.getElementById('sqlQuery').value = query;
+        }
+
+        // Function to clear query editor
+        function clearQuery() {
+            document.getElementById('sqlQuery').value = '';
+            const resultsTable = document.getElementById('queryResults');
+            resultsTable.querySelector('thead').innerHTML = '';
+            resultsTable.querySelector('tbody').innerHTML = '';
+        }
+
+        // Add server health check when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM loaded, checking server health...");
+            appUtils.checkServerHealth().then((isHealthy) => {
+                if (!isHealthy) {
+                    const queryButton = document.querySelector('button[onclick="executeQuery()"]');
+                    if (queryButton) {
+                        queryButton.disabled = true;
+                        queryButton.classList.add('opacity-50', 'cursor-not-allowed');
+                    }
+                    
+                    document.getElementById('resultsContainer').innerHTML = `
+                        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                            Server connection issues. SQL query execution is unavailable.
+                        </div>
+                    `;
+                }
+            });
+        });
+
+        // Add this function to enable search functionality
+        function setupSearch() {
+            const searchInput = document.getElementById('pageSearch');
+            if (!searchInput) return;
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                // Since the query page dynamically generates tables, we need to find any available table
+                const resultsContainer = document.getElementById('resultsContainer');
+                const table = resultsContainer.querySelector('table');
+                
+                if (!table) return; // No table found yet
+                
+                const rows = table.querySelectorAll('tbody tr');
+                
+                // Search counter for visibility
+                let visibleCount = 0;
+                let totalCount = rows.length;
+                
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    if (searchTerm === '' || text.includes(searchTerm)) {
+                        row.style.display = '';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+                
+                // If search is active, show a counter
+                if (searchTerm !== '') {
+                    console.log(`Showing ${visibleCount} of ${totalCount} results for "${searchTerm}"`);
+                    
+                    // Visual indicator of search results
+                    if (visibleCount === 0 && totalCount > 0) {
+                        // No results message
+                        if (!document.getElementById('no-results-message')) {
+                            const message = document.createElement('div');
+                            message.id = 'no-results-message';
+                            message.className = 'text-center text-red-500 p-2';
+                            message.textContent = `No results found for "${searchTerm}"`;
+                            table.parentNode.insertBefore(message, table.nextSibling);
+                        } else {
+                            document.getElementById('no-results-message').textContent = 
+                                `No results found for "${searchTerm}"`;
+                        }
+                    } else {
+                        // Remove no results message if it exists
+                        const noResults = document.getElementById('no-results-message');
+                        if (noResults) noResults.remove();
+                    }
+                } else {
+                    // Remove no results message if search is cleared
+                    const noResults = document.getElementById('no-results-message');
+                    if (noResults) noResults.remove();
+                }
+            });
+        }
+
+        // Call setupSearch on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // The query page doesn't have a table initially, so we just set up the listener
+            const searchInput = document.getElementById('pageSearch');
+            if (searchInput) {
+                // Clear any existing event listeners
+                searchInput.removeEventListener('input', setupSearch);
+                // Setup the event listener again
+                setupSearch();
+            }
+        });
+    </script>
+</body>
+</html> 

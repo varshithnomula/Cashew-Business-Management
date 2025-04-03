@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashew Management System</title>
+    <link rel="stylesheet" href="/src/styles/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://t4.ftcdn.net/jpg/01/71/82/79/240_F_171827945_jwDoVYgXxdLZ36IJMoplWyyGJ95eMh1w.jpg" alt="Cashew Logo" class="logo">
+                <h1>Cashew Management</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/index.html" class="nav-item">
+                    <i class="icon">📊</i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/src/pages/suppliers.html" class="nav-item">
+                    <i class="icon">👥</i>
+                    <span>Suppliers</span>
+                </a>
+                <a href="/src/pages/customers.html" class="nav-item">
+                    <i class="icon">🧑‍💼</i>
+                    <span>Customers</span>
+                </a>
+                <a href="/src/pages/sales.html" class="nav-item">
+                    <i class="icon">💰</i>
+                    <span>Sales</span>
+                </a>
+                <a href="/src/pages/payments.html" class="nav-item">
+                    <i class="icon">💳</i>
+                    <span>Payments</span>
+                </a>
+                <a href="/src/pages/query.html" class="nav-item">
+                    <i class="icon">📝</i>
+                    <span>SQL Query</span>
+                </a>
+            </nav>
+        </aside> 
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="dashboard-title">
+                    <h2>Cashew Management Dashboard</h2>
+                </div>
+            </header>
+
+            <div id="dashboard" class="page active">
+                <div class="dashboard-header">
+                    <h2>Dashboard Overview</h2>
+                    <div class="date-filter">
+                        <select id="dateRange">
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Sales</h3>
+                        <p class="stat-value">₹1,234,567</p>
+                        <span class="trend positive">↑ 12.5%</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Pending Payments</h3>
+                        <p class="stat-value">₹45,678</p>
+                        <span class="trend negative">↓ 5.2%</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Raw Stock</h3>
+                        <p class="stat-value">2,345 kg</p>
+                        <span class="trend neutral">→ 0%</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Orders</h3>
+                        <p class="stat-value">28</p>
+                        <span class="trend positive">↑ 8.3%</span>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3>Sales Trend</h3>
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Top Products</h3>
+                        <canvas id="productsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        // Load sidebar
+        fetch('/src/components/sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('sidebar-container').innerHTML = html;
+            });
+    </script>
+</body>
+</html>
